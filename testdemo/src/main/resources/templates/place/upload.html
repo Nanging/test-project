@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Place Upload</title>
+<link rel="stylesheet" href="../static/css/fileinput.min.css" th:href="@{/css/fileinput.min.css}"/>
+</head>
+<body>
+<p>Place Upload</p>
+<form id="form" action="JavaScript:void(0);" method="post">
+    <label for="name">name</label>:
+    <input type="text" id="name" name="name" autofocus="autofocus" /> <br />
+    <label for="size">size</label>:
+    <input type="text" id="size" name="size" /> <br />
+    <label for="type">type</label>:
+    <input th:each="placetype:${types}" type="checkbox" id="type" name="type" th:attr="value=${placetype.id}"/>
+    <input type="checkbox" id="type" name="type" value="5"/>
+    <label for="detail">detail</label>:
+    <input type="text" id="detail" name="detail" /> <br />
+</form>
+    <div>
+    <label for="imgInput">images</label>:
+    <input type="file" name="imgInput[]" id="imgInput" multiple accept="image/*" />
+    </div>
+     <div id="errorText">
+
+     </div>
+    <button onclick="upload()" > Apply </button>
+
+<script type="text/javascript" src="../static/js/jquery-3.4.0.min.js" th:src="@{/js/jquery-3.4.0.min.js}"></script>
+<script type="text/javascript" src="../static/js/masonry.pkgd.min.js" th:src="@{/js/masonry.pkgd.min.js}"></script>
+<script type="text/javascript" src="../static/js/imagesloaded.pkgd.min.js" th:src="@{/js/imagesloaded.pkgd.min.js}"></script>
+<script type="text/javascript" src="../static/js/fileinput.min.js" th:src="@{/js/fileinput.min.js}"></script>
+<script type="text/javascript">
+function inputCheck(){
+    if ($("#name").val() == '') {
+        $("#errorText").append("<small style='color:orangered'><span class='glyphicon glyphicon-remove'></span>name cannot be empty</small>");
+        return false;
+    }
+    console.log("name");
+    if ($("#size").val() == '') {
+        $("#errorText").append("<small style='color:orangered'><span class='glyphicon glyphicon-remove'></span>size cannot be empty</small>");
+        return false;
+    }
+    console.log("size");
+    if ($("#detail").val() == '') {
+        $("#errorText").append("<small style='color:orangered'><span class='glyphicon glyphicon-remove'></span>detail cannot be empty</small>");
+        return false;
+    }
+    console.log("detail");
+    return true;
+}
+
+	function upload(){
+		$("#errorText").children("small").remove();
+		if(!inputCheck()) return;
+	    $("#imgInput").fileinput('upload').fileinput('lock');
+	}
+	$(document).ready(function () {
+	    $("#imgInput").fileinput({
+	        uploadUrl:"/place/upload/image",   //differ from foster
+	        msgFilesTooLess:"You should choose at least 1 image",
+	        msgFilesTooMany:"You should choose no more than 3 images",
+	        allowedFileExtensions:["jpg","jpeg","png"],
+	        msgInvalidFileExtension:"You can only upload jpg, jpeg, png files",
+	        minFileCount:1,
+	        maxFileCount:3,
+	        maxFileSize:3000,
+	        uploadAsync: false,
+	        msgSizeTooLarge:"The image should be no more than 3MB",
+	        fileActionSettings:{
+	            showUpload:false,
+	            showRemove:true,
+	            showZoom:false,
+	        },
+	        showClose:false,
+	        showCancel:false,
+	        showUpload: false,                              //http://plugins.krajee.com/file-input#ajax-sync  FOR HELP
+	    }).on("filebatchuploadsuccess",function (event,data) {  //if images uploaded successfully, then post the publish request with the url of images
+	    	var images = data.response;
+	        var publishData=$("#form").serializeArray();
+	    	var typelist = $("input[name='type']:checked").serialize();
+	    	var imageids = '';
+	        var s={};
+	        $.each(publishData,function (index,field) {      //transfer form into json string
+	            s[field.name] = field.value;
+	        });
+	        $.each(images,function (index,field) {         //add the image url into the publish
+	            imageids +=(field.id+',')
+	        })
+	        s["images"] = imageids;
+	        s["types"] = typelist;
+	        console.log(s);
+	        console.log("=================");
+	        $.ajax({
+	            url: "/place/upload/add",  //tartget url
+	            type: "POST",
+	            dataType: 'json',
+	            data: s,
+	            success:function(result){
+	                alert(result);
+	                //to be done
+	            },
+	            error:function (result) {
+	                //to be done
+	                $("#errorText").children("small").remove();
+	                $("#errorText").append("<small style='color:orangered'><span class='glyphicon glyphicon-remove'></span>404 Error!</small>");
+	            }
+	        })
+	    })
+	    $("#imgInput").on("filebatchuploaderror",function(event,data,msg){ //upload failed
+	        console.log(msg);                                          //http://plugins.krajee.com/file-input/plugin-events#filebatchuploaderror FOR HELP
+	        $("#imgInput").fileinput('unlock');
+	        $("#errorText").children("small").remove();
+	        $("#errorText").append("<small style='color:orangered'><span class='glyphicon glyphicon-remove'></span>"+msg+"</small>");
+	    });
+
+	})
+</script>
+</body>
+</html>

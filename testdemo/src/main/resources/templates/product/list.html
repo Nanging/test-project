@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Product List</title>
+</head>
+<body>
+<p>Product List</p>
+<div th:insert="~{fragments/header::logout}"></div>
+<ol>
+<li th:each="product:${products}">
+	<p th:text="${product.id}"></p>
+	<p th:text="${product.price}"></p>
+	<p th:text="${product.unit}"></p>
+	<p th:text="${product.place}"></p>
+	<p th:text="${product.place.name}"></p>
+	<a sec:authorize="hasAuthority('ProductDetail')" th:href="@{'/product/detail/'+${product.id}}">detail</a>
+</li>
+</ol>
+<script type="text/javascript" src="../static/js/jquery-3.4.0.min.js" th:src="@{/js/jquery-3.4.0.min.js}"></script>
+<script type="text/javascript">
+	function fun(){
+		alert("被点击");
+		$.ajax({
+			type:'post',
+			url:'/product/detail/1',
+			contentType: "aplication/json;charset=UTF-8;",
+			success:function(res){
+				alert('get detail');
+			}
+		});
+	}
+</script>
+</body>
+</html>

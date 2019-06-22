@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Record List</title>
+</head>
+<body>
+<p>Record List</p>
+<ol>
+<li th:each="record:${records}">
+	<p th:text="${record.starttime}"></p>
+	<p th:text="${record.endtime}"></p>
+	<p th:text="${record.borrower.id}"></p>
+	<p th:text="${record.product.id}"></p>
+	<a th:href="@{'/record/detail/'+${record.id}}">detail</a>
+</li>
+</ol>
+total<p th:text="${total}"></p>
+page<p th:text="${page}"></p>
+</body>
+</html>
