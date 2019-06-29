@@ -1,9 +1,12 @@
 package com.sd.demo.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sd.demo.entity.SysUser;
+import com.sd.demo.web.ApplyItem;
 import com.sd.demo.web.Result;
 
 public interface UserService {
@@ -21,4 +24,10 @@ public interface UserService {
 	SysUser getCurrentUser(HttpServletRequest request, HttpServletResponse response);
 
 	SysUser modifyUser(SysUser user);
+
+	SysUser modify(String password, HttpServletRequest request, HttpServletResponse response);
+
+	List<ApplyItem> getUserApply(SysUser user);
+
+	List<ApplyItem> getOtherUserApply(SysUser user);
 }

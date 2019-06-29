@@ -24,7 +24,6 @@ public interface PlaceService {
 
 	Page<Place> getUserList(int page, int size);
 
-	List<Place> getAllUserPlace();
 
 	List<PlaceItem> getPlaceList(String name, String type, int page);
 
@@ -37,6 +36,13 @@ public interface PlaceService {
 			int roomNumber, Set<String> images, HttpServletRequest request, HttpServletResponse response);
 
 	PlaceItem getPlaceById(int id);
+
+	List<PlaceItem> getAllUserPlace(SysUser user);
+
+	List<PlaceItem> getUserFavoritePlace(SysUser user);
+
+	Place modifyPlace(int id, String name, String type, String description, int size, int affordNumber, String location,
+			int price, int roomNumber);
 
 
 }

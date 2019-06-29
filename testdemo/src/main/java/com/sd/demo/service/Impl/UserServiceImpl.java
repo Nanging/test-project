@@ -1,6 +1,9 @@
 package com.sd.demo.service.Impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -13,9 +16,14 @@ import org.springframework.stereotype.Service;
 
 import com.sd.demo.dao.SysRoleDao;
 import com.sd.demo.dao.SysUserDao;
+import com.sd.demo.entity.Apply;
+import com.sd.demo.entity.Place;
 import com.sd.demo.entity.SysRole;
 import com.sd.demo.entity.SysUser;
+import com.sd.demo.service.ApplyService;
 import com.sd.demo.service.UserService;
+import com.sd.demo.web.ApplyItem;
+import com.sd.demo.web.PlaceItem;
 import com.sd.demo.web.Result;
 import com.sd.demo.web.ResultFactory;
 
@@ -30,11 +38,47 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	UserRedisService userRedisService;
+	
+	@Autowired
+	ApplyService applyService;
 
 	@Override
 	public void addUserSession(String username, String sessionId) {
 		userRedisService.addUserSession(username, sessionId);
 	}
+	@Override
+	public List<ApplyItem> getUserApply(SysUser user) {
+		Set<Apply> applies =  user.getApplies();
+		List<ApplyItem> resultList = new ArrayList<>();
+		for (Apply apply : applies) {
+			ApplyItem item = new ApplyItem();
+			item.setApplier(apply.getApplier().getUsername());
+			item.setPlacename(apply.getPlace().getName());
+			item.setStartTime(apply.getStartTime());
+			item.setState(apply.getState().getState());
+			item.setTime(apply.getTime());
+			resultList.add(item);
+		}
+		return resultList;
+	}
+	@Override
+	public List<ApplyItem> getOtherUserApply(SysUser user) {
+		List<ApplyItem> resultList = new ArrayList<>();
+		for (Place place : user.getPlaces()) {
+			resultList.addAll(applyService.getApplyByPlace(place.getId().intValue()));
+		}
+		return resultList;
+	}
+	public boolean confirm(SysUser user) {
+		return false;
+	}
+	public boolean refuse(SysUser user) {
+		return false;
+	}
+	public List<PlaceItem> getUserPlace(SysUser user) {
+		return null;
+	}
+	
 	@Override
 	public SysUser modifyUser(SysUser user) {
 		user.setPassword(user.getPassword());
@@ -89,6 +133,16 @@ public class UserServiceImpl implements UserService {
 			return ResultFactory.buildSuccessResult("success");
 		}
 		return ResultFactory.buildFailResult("error");
+	}
+	@Override
+	public SysUser modify(String password,HttpServletRequest request, HttpServletResponse response) {
+		SysUser user = getCurrentUser(request, response);
+		if (null == user) {
+			return null;
+		}
+		user.setPassword(password);
+		userDao.saveAndFlush(user);
+		return user;
 	}
 	@Override
 	public SysUser getCurrentUser(HttpServletRequest request, HttpServletResponse response) {

@@ -116,6 +116,30 @@ public class SysUser  implements Serializable {
 		this.places = places;
 	}
 
+	public Set<Apply> getApplies() {
+		return applies;
+	}
+
+	public void setApplies(Set<Apply> applies) {
+		this.applies = applies;
+	}
+
+	public Set<Place> getPlaceList() {
+		return placeList;
+	}
+
+	public void setPlaceList(Set<Place> placeList) {
+		this.placeList = placeList;
+	}
+
+	public Set<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
+	}
+
 	@Override
 	public String toString() {
 		return "SysUser [id=" + id + ", username=" + username + ", password=" + password + ", phonenumber="

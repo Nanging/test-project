@@ -92,6 +92,21 @@ public class PlaceServiceImpl implements PlaceService {
 		return placeDao.getOne(place.getId());
 	}
 	
+	public Place modifyPlace(int id,String name,String type, String description, int size,
+			int affordNumber,String location,int price,int roomNumber) {
+		Place place = getPlaceDetail(id);
+		place.setName(name);
+		place.setType(type);
+		place.setDescription(description);
+		place.setSize(size);
+		place.setAffordNumber(affordNumber);
+		place.setLocation(location);
+		place.setPrice(price);
+		place.setRoomNumber(roomNumber);
+		modifyPlaceDetail(place);
+		return placeDao.findById(place.getId()).get();
+	}
+	
 	@Override
 	public Place modifyPlaceDetail(Place place) {
 		placeDao.saveAndFlush(place);
@@ -118,12 +133,26 @@ public class PlaceServiceImpl implements PlaceService {
 	}
 	
 	@Override
-	public List<Place> getAllUserPlace(){
-		SysUser user = userDao.findByUsername("MyUserDetailsService.getCurrentUser()");
-		System.out.println("user id "+user.getId());
-		return placeDao.findByOwner(user);
+	public List<PlaceItem> getAllUserPlace(SysUser user){
+		List<Place>places = placeDao.findByOwner(user);
+		List<PlaceItem > resultList = new ArrayList<>();
+		for (Place place : places) {
+			PlaceItem item = getPlaceResult(place);
+			resultList.add(item);
+		}
+		return resultList;
 	}
 	
+	@Override
+	public List<PlaceItem> getUserFavoritePlace(SysUser user){
+		Set<Place>places = user.getPlaceList();
+		List<PlaceItem > resultList = new ArrayList<>();
+		for (Place place : places) {
+			PlaceItem item = getPlaceResult(place);
+			resultList.add(item);
+		}
+		return resultList;
+	}
 	@Override
 	public Page<Place> getAdminList(int page){
 		Pageable pageable = PageRequest.of(page,Size);
