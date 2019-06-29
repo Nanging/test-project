@@ -29,5 +29,45 @@ public class Comment {
 	
 	@Column
 	private Timestamp time;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public SysUser getEditor() {
+		return editor;
+	}
+
+	public void setEditor(SysUser editor) {
+		this.editor = editor;
+	}
+
+	public Place getPlace() {
+		return place;
+	}
+
+	public void setPlace(Place place) {
+		this.place = place;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Timestamp getTime() {
+		return time;
+	}
+
+	public void setTime(Timestamp time) {
+		this.time = time;
+	}
 	
 }

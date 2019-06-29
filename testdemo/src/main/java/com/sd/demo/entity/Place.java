@@ -70,6 +70,70 @@ public class Place {
 		return id;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getAffordNumber() {
+		return affordNumber;
+	}
+
+	public void setAffordNumber(int affordNumber) {
+		this.affordNumber = affordNumber;
+	}
+
+	public int getRoomNumber() {
+		return roomNumber;
+	}
+
+	public void setRoomNumber(int roomNumber) {
+		this.roomNumber = roomNumber;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public Set<Apply> getApplies() {
+		return applies;
+	}
+
+	public void setApplies(Set<Apply> applies) {
+		this.applies = applies;
+	}
+
+	public Set<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public Set<SysUser> getUserList() {
+		return userList;
+	}
+
+	public void setUserList(Set<SysUser> userList) {
+		this.userList = userList;
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
