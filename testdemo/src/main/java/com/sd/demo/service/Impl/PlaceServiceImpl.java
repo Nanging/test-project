@@ -10,6 +10,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.Size;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,14 +22,13 @@ import org.springframework.stereotype.Service;
 
 import com.sd.demo.dao.PlaceDao;
 import com.sd.demo.dao.PlaceImageDao;
-import com.sd.demo.dao.PlaceTypeDao;
 import com.sd.demo.dao.SysUserDao;
 import com.sd.demo.entity.Place;
 import com.sd.demo.entity.PlaceImage;
-import com.sd.demo.entity.PlaceType;
 import com.sd.demo.entity.SysUser;
 import com.sd.demo.service.PlaceService;
-import com.sd.demo.support.MyUserDetailsService;
+import com.sd.demo.service.UserService;
+import com.sd.demo.web.PlaceItem;
 @Service
 public class PlaceServiceImpl implements PlaceService {
 	@Autowired
@@ -35,25 +38,12 @@ public class PlaceServiceImpl implements PlaceService {
 	private SysUserDao userDao;
 	
 	@Autowired
-	private PlaceTypeDao placeTypeDao;
+	private UserService userService;
 	
 	@Autowired
 	private PlaceImageDao placeImageDao;
 	
-	@Override
-	public List<PlaceType> getAllPlaceType(){
-		return placeTypeDao.findAll();
-	}
-	
-	@Override 
-	public Set<PlaceType> parsePlaceType(String types){
-		String[] typeStrings = types.split("&");
-		Set<PlaceType> placeTypes = new HashSet<PlaceType>();
-		for (String type : typeStrings) {
-			placeTypes.add( placeTypeDao.getOne(Long.parseLong(type.split("=")[1])));
-		}
-		return placeTypes;
-	}
+	private static final int Size = 10;
 	
 	@Override
 	public Place getPlaceDetail(int id) {
@@ -67,34 +57,37 @@ public class PlaceServiceImpl implements PlaceService {
 	}
 	
 	@Override
-	public Place addPlace(String name,Set<Long> typeids, String detail, String size, Set<Long> imageids) {
-		Place place = new Place();
-		place.setName(name);
-		place.setDetail(detail);
-		place.setSize(size);
-		List<PlaceType> types = placeTypeDao.findAllById(typeids);
-		List<PlaceImage> images = placeImageDao.findAllById(imageids);
-		place.setTypes(new HashSet<PlaceType>(types));
-		place.setImages(new HashSet<PlaceImage>(images));
-		placeDao.saveAndFlush(place);
-		return placeDao.getOne(place.getId());
-	}
-	@Override
-	public Place addPlace(String name,String typeidString, String detail, String size, String imageidString) {
-		Place place = new Place();
-		place.setName(name);
-		place.setDetail(detail);
-		place.setSize(size);
-		Set<PlaceType> placeTypes = parsePlaceType(typeidString);
-		List<PlaceType> types = new ArrayList<PlaceType>(placeTypes);
-		String[] imageidStrings = imageidString.split(",");
-		Set<Long> imageids = new HashSet<Long>();
-		for (String string : imageidStrings) {
-			imageids.add(Long.parseLong(string));
+	public Place addPlace(String name,String type, String description, int size,
+			int affordNumber,String location,int price,int roomNumber,
+			Set<String> images,HttpServletRequest request, HttpServletResponse response) {
+		SysUser user = userService.getCurrentUser(request, response);
+		if (user == null) {
+			return null;
 		}
-		List<PlaceImage> images = placeImageDao.findAllById(imageids);
-		place.setTypes(new HashSet<PlaceType>(types));
-		place.setImages(new HashSet<PlaceImage>(images));
+		return addPlace(name, type, description, size, affordNumber, location, price, roomNumber, images, user);
+	}
+	
+	@Override
+	public Place addPlace(String name,String type, String description, int size,
+			int affordNumber,String location,int price,int roomNumber,
+			Set<String> imageUrls,SysUser owner) {
+		Place place = new Place();
+		place.setName(name);
+		place.setDescription(description);
+		place.setSize(size);
+		place.setType(type);
+		place.setOwner(owner);
+		place.setAffordNumber(affordNumber);
+		place.setLocation(location);
+		place.setPrice(price);
+		place.setRoomNumber(roomNumber);
+		placeDao.saveAndFlush(place);
+		Set<PlaceImage> images = new HashSet<>();
+		for (String url : imageUrls) {
+			PlaceImage image = new PlaceImage();
+			image.setUrl(url);
+		}
+		place.setImages(images);
 		placeDao.saveAndFlush(place);
 		return placeDao.getOne(place.getId());
 	}
@@ -119,31 +112,59 @@ public class PlaceServiceImpl implements PlaceService {
 	@Override
 	public Page<Place> getUserList(int page, int size){
 		Pageable pageable = PageRequest.of(page, size);
-		SysUser user = userDao.findByUsername(MyUserDetailsService.getCurrentUser());
+		SysUser user = userDao.findByUsername("MyUserDetailsService.getCurrentUser()");
 		System.out.println("user id "+user.getId());
 		return placeDao.findByOwner(user, pageable);
 	}
 	
 	@Override
 	public List<Place> getAllUserPlace(){
-		SysUser user = userDao.findByUsername(MyUserDetailsService.getCurrentUser());
+		SysUser user = userDao.findByUsername("MyUserDetailsService.getCurrentUser()");
 		System.out.println("user id "+user.getId());
 		return placeDao.findByOwner(user);
 	}
 	
 	@Override
-	public Page<Place> getAdminList(int page, int size){
-		Pageable pageable = PageRequest.of(page, size);
+	public Page<Place> getAdminList(int page){
+		Pageable pageable = PageRequest.of(page,Size);
 		return placeDao.findAll(pageable);
 	}
 	
 	@Override
-	public Map<String, Object> getPlaceList(int page, int size) {
-		Map<String, Object>attr = new HashMap<String, Object>();
-		Page<Place> places = getUserList(page, size);
-		attr.put("records", places.getContent());
-		attr.put("total", places.getNumber());
-		attr.put("page", page);
-		return attr;
+	public List<PlaceItem> getPlaceList(String name,String type, int page){
+		Pageable pageable = PageRequest.of(page-1, Size);
+		List<Place> places = placeDao.findByNameLikeOrTypeLike("%"+name+"%", "%"+type+"%", pageable).getContent();
+		System.out.println(places.size());
+		List<PlaceItem > resultList = new ArrayList<>();
+		for (Place place : places) {
+			PlaceItem item = getPlaceResult(place);
+			resultList.add(item);
+		}
+		return resultList;
+	}
+	@Override
+	public PlaceItem getPlaceById(int id) {
+		Place place = placeDao.getOne((long) id);
+		return getPlaceResult(place);
+	}
+	public PlaceItem getPlaceResult(Place place){
+		PlaceItem item = new PlaceItem();
+		item.setAffordNumber(place.getAffordNumber());
+		item.setDescription(place.getDescription());
+		item.setId(place.getId());
+		Set<String> images = new HashSet<>();
+		for (PlaceImage image : place.getImages()) {
+			images.add(image.getUrl());
+		}
+		item.setImages(images);
+		item.setLocation(place.getLocation());
+		item.setName(place.getName());
+		item.setOwner(place.getOwner().getUsername());
+		item.setPhonenumber(place.getOwner().getPhonenumber());
+		item.setPrice(place.getPrice());
+		item.setRoomNumber(place.getRoomNumber());
+		item.setSize(place.getSize());
+		item.setType(place.getType());	
+		return item;
 	}
 }

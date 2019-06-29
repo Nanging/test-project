@@ -32,15 +32,25 @@ public class Place {
 	@JoinColumn(name="ownerid")
 	private SysUser owner;
 	
-	@ManyToMany(fetch=FetchType.EAGER,cascade = {CascadeType.PERSIST})
-    @JoinTable(joinColumns = {@JoinColumn(name = "placeid")}, inverseJoinColumns = {@JoinColumn(name = "typeid")})
-	private Set<PlaceType> types = new HashSet<PlaceType>();
+	@Column(length = 64)
+	private String type;
+//	@ManyToMany(fetch=FetchType.EAGER,cascade = {CascadeType.PERSIST})
+//    @JoinTable(joinColumns = {@JoinColumn(name = "placeid")}, inverseJoinColumns = {@JoinColumn(name = "typeid")})
+//	private Set<PlaceType> types = new HashSet<PlaceType>();
 	
 	@Column(length = 500)
 	private String description;
 	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	@Column(length = 64)
-	private String size;
+	private int size;
 	
 	@Column(length = 64)
 	private int affordNumber;
@@ -155,11 +165,11 @@ public class Place {
 		this.description = detail;
 	}
 
-	public String getSize() {
+	public int getSize() {
 		return size;
 	}
 
-	public void setSize(String size) {
+	public void setSize(int size) {
 		this.size = size;
 	}
 
@@ -171,13 +181,6 @@ public class Place {
 		this.owner = owner;
 	}
 
-	public Set<PlaceType> getTypes() {
-		return types;
-	}
-
-	public void setTypes(Set<PlaceType> types) {
-		this.types = types;
-	}
 
 	public Set<PlaceImage> getImages() {
 		return images;

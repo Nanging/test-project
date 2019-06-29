@@ -19,7 +19,6 @@ import com.sd.demo.entity.ApplyState;
 import com.sd.demo.entity.Place;
 import com.sd.demo.entity.SysUser;
 import com.sd.demo.service.ApplyService;
-import com.sd.demo.support.MyUserDetailsService;
 @Service
 public class ApplyServiceImpl implements ApplyService {
 
@@ -50,7 +49,7 @@ public class ApplyServiceImpl implements ApplyService {
 		Apply apply = new Apply();
 		Place place = placeDao.getOne(placeid);
 		apply.setPlace(place);
-		SysUser applier = userDao.findByUsername(MyUserDetailsService.getCurrentUser());
+		SysUser applier = userDao.findByUsername("MyUserDetailsService.getCurrentUser()");
 		apply.setApplier(applier);
 		ApplyState state = applyStateDao.getOne((long)1);
 		apply.setState(state);

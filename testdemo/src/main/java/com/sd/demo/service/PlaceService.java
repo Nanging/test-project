@@ -4,16 +4,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.data.domain.Page;
 
 import com.sd.demo.entity.Place;
-import com.sd.demo.entity.PlaceType;
+import com.sd.demo.entity.SysUser;
+import com.sd.demo.web.PlaceItem;
+
 
 public interface PlaceService {
 
 	Place getPlaceDetail(int id);
-
-	Place addPlace(String name, Set<Long> typeids, String detail, String size, Set<Long> imageids);
 
 	Place modifyPlaceDetail(Place place);
 
@@ -21,16 +24,19 @@ public interface PlaceService {
 
 	Page<Place> getUserList(int page, int size);
 
-	Page<Place> getAdminList(int page, int size);
-
-	Map<String, Object> getPlaceList(int page, int size);
-
 	List<Place> getAllUserPlace();
 
-	List<PlaceType> getAllPlaceType();
+	List<PlaceItem> getPlaceList(String name, String type, int page);
 
-	Set<PlaceType> parsePlaceType(String types);
+	Page<Place> getAdminList(int page);
 
-	Place addPlace(String name, String typeidString, String detail, String size, String imageidString);
+	Place addPlace(String name, String type, String description, int size, int affordNumber, String location, int price,
+			int roomNumber, Set<String> imageUrls, SysUser owner);
+
+	Place addPlace(String name, String type, String description, int size, int affordNumber, String location, int price,
+			int roomNumber, Set<String> images, HttpServletRequest request, HttpServletResponse response);
+
+	PlaceItem getPlaceById(int id);
+
 
 }

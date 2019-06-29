@@ -99,11 +99,6 @@ public class SysUser  implements Serializable {
 		this.phonenumber = phonenumber;
 	}
 
-	@Override
-	public String toString() {
-		return "SysUser [id=" + id + ", username=" + username + ", password=" + password + ", roleList=" + roleList
-				+ "]";
-	}
 
 	public Set<SysRole> getRoleList() {
 		return roleList;
@@ -119,6 +114,12 @@ public class SysUser  implements Serializable {
 
 	public void setPlaces(Set<Place> places) {
 		this.places = places;
+	}
+
+	@Override
+	public String toString() {
+		return "SysUser [id=" + id + ", username=" + username + ", password=" + password + ", phonenumber="
+				+ phonenumber + "]";
 	}
 
 }

@@ -1,9 +1,10 @@
 package com.sd.demo.web;
 
-public class LoginForm {
+public class RegisterForm {
 
 	public String username;
 	public String password;
+	public String phonenumber;
 	public String getUsername() {
 		return username;
 	}
@@ -16,9 +17,15 @@ public class LoginForm {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public String getPhonenumber() {
+		return phonenumber;
+	}
+	public void setPhonenumber(String phonenumber) {
+		this.phonenumber = phonenumber;
+	}
 	@Override
 	public String toString() {
-		return "LoginForm [username=" + username + ", password=" + password + "]";
+		return "ResisterForm [username=" + username + ", password=" + password + ", phonenumber=" + phonenumber + "]";
 	}
 	
 }
