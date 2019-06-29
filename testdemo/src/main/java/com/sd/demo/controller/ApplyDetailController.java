@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sd.demo.entity.Apply;
-import com.sd.demo.entity.Product;
 import com.sd.demo.service.ApplyService;
-import com.sd.demo.service.ProductService;
 import com.sd.demo.support.MyUserDetailsService;
 
 @Controller

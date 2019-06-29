@@ -17,8 +17,6 @@ import com.sd.demo.dao.SysUserDao;
 import com.sd.demo.entity.Apply;
 import com.sd.demo.entity.ApplyState;
 import com.sd.demo.entity.Place;
-import com.sd.demo.entity.Product;
-import com.sd.demo.entity.ProductState;
 import com.sd.demo.entity.SysUser;
 import com.sd.demo.service.ApplyService;
 import com.sd.demo.support.MyUserDetailsService;

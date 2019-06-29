@@ -5,7 +5,6 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 
 import com.sd.demo.entity.Apply;
-import com.sd.demo.entity.Product;
 
 public interface ApplyService {
 

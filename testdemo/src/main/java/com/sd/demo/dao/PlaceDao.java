@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.sd.demo.entity.Place;
-import com.sd.demo.entity.Product;
 import com.sd.demo.entity.SysUser;
 @Repository
 public interface PlaceDao extends JpaRepository<Place,Long>{

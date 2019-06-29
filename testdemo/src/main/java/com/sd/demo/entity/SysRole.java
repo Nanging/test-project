@@ -44,10 +44,6 @@ public class SysRole implements Serializable {
 	@ManyToMany(mappedBy = "roleList")
     private Set<SysUser> userList = new HashSet<SysUser>();
 	
-//    @OneToMany(cascade = {CascadeType.PERSIST})
-//    @JoinColumn(name = "borrower", referencedColumnName = "id")
-//	@OrderBy("id asc")
-//	private List<Record> orderList;
 	
 	public SysRole(Long id, String code, String name, Set<SysPermission> permissionList, Set<SysUser> userList) {
 		super();

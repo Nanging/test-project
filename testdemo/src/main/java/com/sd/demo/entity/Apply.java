@@ -1,5 +1,6 @@
 package com.sd.demo.entity;
 
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,6 +31,15 @@ public class Apply {
 	@JoinColumn(name="applier")
 	private SysUser applier;
 
+	@Column
+	private Timestamp startTime;
+	
+	@Column
+	private int time;
+	
+	@Column
+	private String unit;
+	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="stateid")
 	private ApplyState state;

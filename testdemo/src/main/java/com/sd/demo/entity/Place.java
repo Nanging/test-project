@@ -28,28 +28,43 @@ public class Place {
 	@Column(length = 64)
 	private String name;
 	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="ownerid")
+	private SysUser owner;
+	
 	@ManyToMany(fetch=FetchType.EAGER,cascade = {CascadeType.PERSIST})
     @JoinTable(joinColumns = {@JoinColumn(name = "placeid")}, inverseJoinColumns = {@JoinColumn(name = "typeid")})
 	private Set<PlaceType> types = new HashSet<PlaceType>();
 	
 	@Column(length = 500)
-	private String detail;
+	private String description;
 	
 	@Column(length = 64)
 	private String size;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="ownerid")
-	private SysUser owner;
+	@Column(length = 64)
+	private int affordNumber;
+
+	@Column(length = 64)
+	private int roomNumber;
+	
+	@Column(length = 64)
+	private String location;
+	
+	@Column(length = 64)
+	private int price;
 	
 	@OneToMany(mappedBy="place",cascade = {CascadeType.ALL})
 	private Set<PlaceImage> images = new HashSet<PlaceImage>();
-
-	@OneToMany(mappedBy="place",cascade = {CascadeType.ALL})
-	private Set<Product> products = new HashSet<Product>();
 	
 	@OneToMany(mappedBy="place",cascade = {CascadeType.ALL})
 	private Set<Apply> applies = new HashSet<Apply>();
+	
+	@OneToMany(mappedBy="place",cascade = {CascadeType.ALL})
+	private Set<Comment> comments = new HashSet<Comment>();
+	
+	@ManyToMany(mappedBy = "placeList")
+    private Set<SysUser> userList = new HashSet<SysUser>();
 	
 	public Long getId() {
 		return id;
@@ -69,11 +84,11 @@ public class Place {
 
 
 	public String getDetail() {
-		return detail;
+		return description;
 	}
 
 	public void setDetail(String detail) {
-		this.detail = detail;
+		this.description = detail;
 	}
 
 	public String getSize() {
@@ -106,14 +121,6 @@ public class Place {
 
 	public void setImages(Set<PlaceImage> images) {
 		this.images = images;
-	}
-
-	public Set<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(Set<Product> products) {
-		this.products = products;
 	}
 
 	

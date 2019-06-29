@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 public class SysUser  implements Serializable {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY )
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(length = 64)
@@ -39,15 +39,19 @@ public class SysUser  implements Serializable {
 	@ManyToMany(fetch=FetchType.EAGER,cascade = {CascadeType.PERSIST})
     @JoinTable(joinColumns = {@JoinColumn(name = "userid")}, inverseJoinColumns = {@JoinColumn(name = "roleid")})
 	private Set<SysRole> roleList = new HashSet<SysRole>();
-
-	@OneToMany(mappedBy="borrower")
-	private Set<Record> records = new HashSet<>(); 
 	
 	@OneToMany(mappedBy="owner")
 	private Set<Place> places = new HashSet<>(); 
 	
 	@OneToMany(mappedBy="applier")
 	private Set<Apply> applies = new HashSet<>(); 
+	
+	@ManyToMany(fetch=FetchType.EAGER,cascade = {CascadeType.PERSIST})
+    @JoinTable(name = "Favorite",joinColumns = {@JoinColumn(name = "userid")}, inverseJoinColumns = {@JoinColumn(name = "placeid")})
+	private Set<Place> placeList = new HashSet<Place>();
+	
+	@OneToMany(mappedBy="editor")
+	private Set<Comment> comments = new HashSet<>(); 
 	
 	public SysUser(String username, String password) {
 		this.username = username;
@@ -107,14 +111,6 @@ public class SysUser  implements Serializable {
 
 	public void setRoleList(Set<SysRole> roleList) {
 		this.roleList = roleList;
-	}
-
-	public Set<Record> getRecords() {
-		return records;
-	}
-
-	public void setRecords(Set<Record> records) {
-		this.records = records;
 	}
 
 	public Set<Place> getPlaces() {

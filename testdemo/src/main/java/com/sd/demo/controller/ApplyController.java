@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sd.demo.entity.Place;
 import com.sd.demo.service.ApplyService;
 import com.sd.demo.service.PlaceService;
-import com.sd.demo.service.ProductService;
 
 @Controller
 @RequestMapping("/apply")

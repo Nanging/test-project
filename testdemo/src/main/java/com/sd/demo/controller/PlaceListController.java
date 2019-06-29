@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sd.demo.service.PlaceService;
-import com.sd.demo.service.ProductService;
 
 @Controller
 @RequestMapping("/place")

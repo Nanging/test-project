@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sd.demo.entity.Place;
-import com.sd.demo.entity.Product;
 import com.sd.demo.service.PlaceService;
-import com.sd.demo.service.ProductService;
 import com.sd.demo.support.MyUserDetailsService;
 
 @Controller
