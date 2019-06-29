@@ -91,7 +91,7 @@ public class PlaceServiceImpl implements PlaceService {
 		placeDao.saveAndFlush(place);
 		return placeDao.getOne(place.getId());
 	}
-	
+	@Override
 	public Place modifyPlace(int id,String name,String type, String description, int size,
 			int affordNumber,String location,int price,int roomNumber) {
 		Place place = getPlaceDetail(id);
