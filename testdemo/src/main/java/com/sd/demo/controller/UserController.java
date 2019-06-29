@@ -12,9 +12,7 @@ public class UserController {
 
 	@RequestMapping("/login")
 	public String Login() {
-		
 		System.out.println("user:" + MyUserDetailsService.getCurrentUser());
-		
 		return "/login";
 	}
 	

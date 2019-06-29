@@ -41,7 +41,7 @@ public class MyUserDetailsService implements UserDetailsService{
 		// TODO Auto-generated method stub
 		SysUser sysUser = userService.getUserByName(username);
 		 if (null == sysUser) {
-			 System.out.println(sysUser);
+			 System.out.println("username :"+username);
 			throw new UsernameNotFoundException(username);
 		}
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
