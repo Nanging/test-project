@@ -9,10 +9,20 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.sd.demo.support.CORSInterceptor;
+
 
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
+	@Bean
+	public CORSInterceptor getCORSInterceptor() {
+		return new CORSInterceptor();
+	}
 
+	public void addInterceptors(InterceptorRegistry registry) {
+
+		registry.addInterceptor(getCORSInterceptor()).addPathPatterns("/**");
+	}
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
