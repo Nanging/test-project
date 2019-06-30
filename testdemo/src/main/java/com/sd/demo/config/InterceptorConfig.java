@@ -36,7 +36,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
 				path = new File("");
 			}
 			System.out.println("path:"+path.getAbsolutePath());
-			File upload = new File(path.getAbsolutePath(),"static/images/upload/");
+			File upload = new File(path.getAbsolutePath(),"/home/img/");
 			if (!upload.exists()) {
 				upload.mkdirs();
 			}
