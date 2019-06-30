@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
 	public List<ApplyItem> getOtherUserApply(SysUser user) {
 		List<ApplyItem> resultList = new ArrayList<>();
 		for (Place place : user.getPlaces()) {
-			resultList.addAll(applyService.getApplyByPlace(place.getId().intValue()));
+			resultList.addAll(applyService.getApplyByPlace(place));
 		}
 		return resultList;
 	}

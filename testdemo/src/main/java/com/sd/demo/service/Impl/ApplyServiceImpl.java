@@ -70,8 +70,8 @@ public class ApplyServiceImpl implements ApplyService {
 	}
 	
 	@Override
-	public List<ApplyItem> getApplyByPlace(int id) {
-		List<Apply> applies =  applyDao.findByPlace(id);
+	public List<ApplyItem> getApplyByPlace(Place place) {
+		List<Apply> applies =  applyDao.findByPlace(place);
 		List<ApplyItem> resultList = new ArrayList<>();
 		for (Apply apply : applies) {
 			ApplyItem item = new ApplyItem();

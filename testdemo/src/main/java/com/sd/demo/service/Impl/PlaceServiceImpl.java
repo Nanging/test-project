@@ -117,8 +117,10 @@ public class PlaceServiceImpl implements PlaceService {
 	@Override
 	public Boolean deletePlace(int id) {
 		Integer ID = id;
+		System.out.println(id);
 		Place record = placeDao.findById(ID.longValue()).get();
-		placeDao.delete(record);
+		placeDao.deleteById((long)id);
+		
 		Optional<Place> placeOptional =  placeDao.findById(ID.longValue());	
 		if (placeOptional.isPresent()) {
 			return false;

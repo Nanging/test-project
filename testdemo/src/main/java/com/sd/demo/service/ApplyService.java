@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 
 import com.sd.demo.entity.Apply;
+import com.sd.demo.entity.Place;
 import com.sd.demo.entity.SysUser;
 import com.sd.demo.web.ApplyItem;
 
@@ -25,10 +26,11 @@ public interface ApplyService {
 
 	Apply addApply(Long placeid, Timestamp startTime, int time, SysUser applier);
 
-	List<ApplyItem> getApplyByPlace(int long1);
 
 	boolean setRefuse(int id);
 
 	boolean setConfirm(int id);
+
+	List<ApplyItem> getApplyByPlace(Place place);
 
 }

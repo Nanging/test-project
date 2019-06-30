@@ -10,5 +10,5 @@ import com.sd.demo.entity.Comment;
 import com.sd.demo.entity.Place;
 @Repository
 public interface ApplyDao  extends JpaRepository<Apply,Long>{
-	List<Apply> findByPlace(int place);
+	List<Apply> findByPlace(Place place);
 }
