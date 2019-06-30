@@ -78,6 +78,7 @@ public class ApplyServiceImpl implements ApplyService {
 			item.setId(apply.getId().intValue());
 			item.setApplier(apply.getApplier().getUsername());
 			item.setPlacename(apply.getPlace().getName());
+			item.setPlaceid(apply.getPlace().getId().intValue());
 			item.setStartTime(apply.getStartTime());
 			item.setState(apply.getState().getState());
 			item.setTime(apply.getTime());

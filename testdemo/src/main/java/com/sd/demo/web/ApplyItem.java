@@ -5,11 +5,18 @@ import java.sql.Timestamp;
 public class ApplyItem {
 	public int id;
 	public String placename;
+	public int placeid;
 	public String applier;
 	public String state;
 	public Timestamp startTime;
 	public int time;
 	
+	public int getPlaceid() {
+		return placeid;
+	}
+	public void setPlaceid(int placeid) {
+		this.placeid = placeid;
+	}
 	public int getId() {
 		return id;
 	}
