@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ public interface PlaceDao extends JpaRepository<Place,Long>{
 	List<Place> findByOwner(SysUser owner);
 	@Transactional
 	@Modifying
-	void deleteById(Long id);
+	@Query("delete from Place where id = :id")
+	void deleteById(@Param("code") Long id);
 	Page<Place> findByNameLikeOrTypeLike(String name,String type,Pageable pageable);
 }
