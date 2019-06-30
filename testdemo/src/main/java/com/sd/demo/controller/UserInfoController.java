@@ -21,6 +21,7 @@ import com.sd.demo.web.EditPlaceForm;
 import com.sd.demo.web.ModifyForm;
 import com.sd.demo.web.Result;
 import com.sd.demo.web.ResultFactory;
+import com.sd.demo.web.UserItem;
 
 @CrossOrigin
 @RequestMapping("/api/user")
@@ -40,10 +41,15 @@ public class UserInfoController {
 	@ResponseBody
 	public Result info(HttpServletRequest request, HttpServletResponse response) {
 		SysUser user = userService.getCurrentUser(request, response);
+		System.out.println(user);
 		if (user == null ) {
 			return ResultFactory.buildAuthFailResult("fail");
 		}
-		return ResultFactory.buildSuccessResult(user);	
+		UserItem userItem = new UserItem();
+		userItem.setId(user.getId().intValue());
+		userItem.setPhonenumber(user.getPhonenumber());
+		userItem.setUsername(user.getUsername());
+		return ResultFactory.buildSuccessResult(userItem);	
 	}
 	@RequestMapping(value = "/modify", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
 	@ResponseBody

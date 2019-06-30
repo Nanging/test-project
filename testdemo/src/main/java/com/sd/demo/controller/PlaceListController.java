@@ -61,7 +61,8 @@ public class PlaceListController {
 								form.getRoomNumber(), 
 								form.getImages(), 
 								request, response);
-		return null;
+		
+		return ResultFactory.buildSuccessResult("success");
 	}
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
