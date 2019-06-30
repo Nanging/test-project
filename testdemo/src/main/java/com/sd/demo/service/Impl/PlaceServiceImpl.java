@@ -120,7 +120,7 @@ public class PlaceServiceImpl implements PlaceService {
 		System.out.println(id);
 		Place record = placeDao.findById(ID.longValue()).get();
 		placeDao.deleteById((long)id);
-		
+		placeDao.flush();
 		Optional<Place> placeOptional =  placeDao.findById(ID.longValue());	
 		if (placeOptional.isPresent()) {
 			return false;
