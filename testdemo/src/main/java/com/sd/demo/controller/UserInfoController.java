@@ -138,4 +138,26 @@ public class UserInfoController {
 		}
 		return ResultFactory.buildSuccessResult(placeService.getUserFavoritePlace(user));	
 	}
+	
+	@RequestMapping(value = "favorite/publish/{id}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public Result addFavorite(@PathVariable("id") Integer id,HttpServletRequest request, HttpServletResponse response) {
+		SysUser user = userService.getCurrentUser(request, response);
+		if (user == null ) {
+			return ResultFactory.buildAuthFailResult("fail");
+		}
+		userService.addFavorite(user, id);
+		return ResultFactory.buildSuccessResult("success");	
+	}
+	@RequestMapping(value = "favorite/cancel/{id}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public Result removeFavorite(@PathVariable("id") Integer id,HttpServletRequest request, HttpServletResponse response) {
+		SysUser user = userService.getCurrentUser(request, response);
+		if (user == null ) {
+			return ResultFactory.buildAuthFailResult("fail");
+		}
+		userService.removeFavorite(user, id);
+		return ResultFactory.buildSuccessResult("success");	
+	}
+	
 }

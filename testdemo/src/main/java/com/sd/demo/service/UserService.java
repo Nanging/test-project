@@ -30,4 +30,8 @@ public interface UserService {
 	List<ApplyItem> getUserApply(SysUser user);
 
 	List<ApplyItem> getOtherUserApply(SysUser user);
+
+	SysUser removeFavorite(SysUser user, int placeid);
+
+	SysUser addFavorite(SysUser user, int placeid);
 }

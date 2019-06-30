@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.sd.demo.dao.CommentDao;
 import com.sd.demo.entity.Comment;
+import com.sd.demo.entity.SysUser;
 import com.sd.demo.service.CommentService;
 import com.sd.demo.service.PlaceService;
 import com.sd.demo.web.CommentItem;
@@ -37,5 +38,14 @@ public class CommentServiceImpl implements CommentService {
 		item.setTime(comment.getTime());
 		item.setUsername(comment.getEditor().getUsername());
 		return item;
+	}
+	@Override
+	public Comment addNewComment(SysUser editor, int placeid, String content) {
+		Comment newComment = new Comment();
+		newComment.setContent(content);
+		newComment.setEditor(editor);
+		newComment.setPlace(placeService.getPlaceDetail(placeid));
+		commentDao.saveAndFlush(newComment);
+		return commentDao.getOne(newComment.getId());
 	}
 }

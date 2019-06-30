@@ -21,6 +21,7 @@ import com.sd.demo.entity.Place;
 import com.sd.demo.entity.SysRole;
 import com.sd.demo.entity.SysUser;
 import com.sd.demo.service.ApplyService;
+import com.sd.demo.service.PlaceService;
 import com.sd.demo.service.UserService;
 import com.sd.demo.web.ApplyItem;
 import com.sd.demo.web.PlaceItem;
@@ -38,6 +39,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	UserRedisService userRedisService;
+	
+	@Autowired
+	private PlaceService placeService;
 	
 	@Autowired
 	ApplyService applyService;
@@ -103,7 +107,21 @@ public class UserServiceImpl implements UserService {
 		userDao.saveAndFlush(newUser);
 		return userDao.findByUsername(username);
 	}
-    
+	@Override
+	public SysUser addFavorite(SysUser user,int placeid) {
+		Place place = placeService.getPlaceDetail(placeid);
+		user.getPlaceList().add(place);
+		userDao.saveAndFlush(user);
+		return user;
+	}
+	@Override
+	public SysUser removeFavorite(SysUser user,int placeid) {
+		Place place = placeService.getPlaceDetail(placeid);
+		user.getPlaceList().remove(place);
+		userDao.saveAndFlush(user);
+		return user;
+	}
+	
 	@Cacheable(cacheNames = "authority",key = "#username")
 	@Override
 	public SysUser getUserByName(String username) {
