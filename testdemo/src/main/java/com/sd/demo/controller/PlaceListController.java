@@ -69,7 +69,7 @@ public class PlaceListController {
 	@ResponseBody
 	public Result uploadFiles(@RequestParam("imgInput") MultipartFile file) {
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-		String fileName = "{"+UUID.randomUUID().toString()+"}"+df.format(new Date());
+		String fileName = UUID.randomUUID().toString()+df.format(new Date());
 		System.out.println(fileName);
 		String newUrl = uploadFileService.getUploadFilePath(file, fileName);
 		if (null==newUrl) {

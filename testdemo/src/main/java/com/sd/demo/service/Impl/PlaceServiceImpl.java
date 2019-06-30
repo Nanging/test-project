@@ -86,6 +86,8 @@ public class PlaceServiceImpl implements PlaceService {
 		for (String url : imageUrls) {
 			PlaceImage image = new PlaceImage();
 			image.setUrl(url);
+			image.setPlace(place);
+			placeImageDao.saveAndFlush(image);
 		}
 		place.setImages(images);
 		placeDao.saveAndFlush(place);

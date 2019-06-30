@@ -17,7 +17,7 @@ public class PlaceImage {
 	@GeneratedValue(strategy=GenerationType.IDENTITY )
 	private Long id;
 	
-	@Column(length = 64)
+	@Column(length = 1200)
 	private String url;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
