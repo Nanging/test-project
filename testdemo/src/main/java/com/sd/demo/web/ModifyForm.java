@@ -1,7 +1,16 @@
 package com.sd.demo.web;
 
 public class ModifyForm {
-	private String password;
+	public String oldPassword;
+	public String password;
+
+	public String getOldPassword() {
+		return oldPassword;
+	}
+
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
 
 	public String getPassword() {
 		return password;
@@ -13,7 +22,8 @@ public class ModifyForm {
 
 	@Override
 	public String toString() {
-		return "ModifyForm [password=" + password + "]";
+		return "ModifyForm [oldPassword=" + oldPassword + ", password=" + password + "]";
 	}
-	
+
+
 }

@@ -24,9 +24,7 @@ public interface UserService {
 	SysUser getCurrentUser(HttpServletRequest request, HttpServletResponse response);
 
 	SysUser modifyUser(SysUser user);
-
-	SysUser modify(String password, HttpServletRequest request, HttpServletResponse response);
-
+	
 	List<ApplyItem> getUserApply(SysUser user);
 
 	List<ApplyItem> getOtherUserApply(SysUser user);
@@ -34,4 +32,7 @@ public interface UserService {
 	SysUser removeFavorite(SysUser user, int placeid);
 
 	SysUser addFavorite(SysUser user, int placeid);
+
+	boolean modify(SysUser user, String oldPassword, String password);
+
 }

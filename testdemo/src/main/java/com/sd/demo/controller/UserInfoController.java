@@ -54,11 +54,15 @@ public class UserInfoController {
 	@RequestMapping(value = "/modify", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public Result modify(@RequestBody ModifyForm form,HttpServletRequest request, HttpServletResponse response) {
-		SysUser user = userService.modify(form.getPassword(), request, response);
+		SysUser user = userService.getCurrentUser(request, response);
+		System.out.println(user);
 		if (user == null ) {
 			return ResultFactory.buildAuthFailResult("fail");
 		}
-		return ResultFactory.buildSuccessResult(user);	
+		if (userService.modify(user,form.getOldPassword(),form.getPassword())) {
+			return ResultFactory.buildAuthFailResult("success");
+		}
+		return ResultFactory.buildSuccessResult("fail");	
 	}
 	@RequestMapping(value = "/apply", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
 	@ResponseBody

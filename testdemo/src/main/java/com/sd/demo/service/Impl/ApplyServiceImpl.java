@@ -75,6 +75,7 @@ public class ApplyServiceImpl implements ApplyService {
 		List<ApplyItem> resultList = new ArrayList<>();
 		for (Apply apply : applies) {
 			ApplyItem item = new ApplyItem();
+			item.setId(apply.getId().intValue());
 			item.setApplier(apply.getApplier().getUsername());
 			item.setPlacename(apply.getPlace().getName());
 			item.setStartTime(apply.getStartTime());

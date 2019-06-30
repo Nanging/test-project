@@ -56,6 +56,7 @@ public class UserServiceImpl implements UserService {
 		List<ApplyItem> resultList = new ArrayList<>();
 		for (Apply apply : applies) {
 			ApplyItem item = new ApplyItem();
+			item.setId(apply.getId().intValue());
 			item.setApplier(apply.getApplier().getUsername());
 			item.setPlacename(apply.getPlace().getName());
 			item.setStartTime(apply.getStartTime());
@@ -153,14 +154,13 @@ public class UserServiceImpl implements UserService {
 		return ResultFactory.buildFailResult("error");
 	}
 	@Override
-	public SysUser modify(String password,HttpServletRequest request, HttpServletResponse response) {
-		SysUser user = getCurrentUser(request, response);
-		if (null == user) {
-			return null;
-		}
+	public boolean modify(SysUser user,String oldPassword,String password) {
+		if (!user.getPassword().equals(oldPassword)) {
+			return false;
+		} 
 		user.setPassword(password);
 		userDao.saveAndFlush(user);
-		return user;
+		return true;
 	}
 	@Override
 	public SysUser getCurrentUser(HttpServletRequest request, HttpServletResponse response) {

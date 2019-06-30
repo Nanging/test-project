@@ -3,11 +3,19 @@ package com.sd.demo.web;
 import java.sql.Timestamp;
 
 public class ApplyItem {
+	public int id;
 	public String placename;
 	public String applier;
 	public String state;
 	public Timestamp startTime;
 	public int time;
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getPlacename() {
 		return placename;
 	}
