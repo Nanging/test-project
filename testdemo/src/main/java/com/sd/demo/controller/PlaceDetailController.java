@@ -39,7 +39,7 @@ public class PlaceDetailController {
 		return ResultFactory.buildSuccessResult(placeService.getPlaceById(id));	
 	}
 	
-	@RequestMapping(value = "/apply/{id}", method = {RequestMethod.POST,RequestMethod.GET}, produces = "application/json; charset=UTF-8")
+	@RequestMapping(value = "/apply", method = {RequestMethod.POST,RequestMethod.GET}, produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public Result apply(@RequestBody ApplyForm form,HttpServletRequest request, HttpServletResponse response) {
 
