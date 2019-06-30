@@ -118,7 +118,11 @@ public class PlaceServiceImpl implements PlaceService {
 	public Boolean deletePlace(int id) {
 		Integer ID = id;
 		System.out.println(id);
-		Place record = placeDao.findById(ID.longValue()).get();
+		Place place = placeDao.findById(ID.longValue()).get();
+		SysUser user = place.getOwner();
+		user.getPlaces().remove(place);
+		userDao.saveAndFlush(user);
+		
 		placeDao.deleteById((long)id);
 		placeDao.flush();
 		Optional<Place> placeOptional =  placeDao.findById(ID.longValue());	

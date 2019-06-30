@@ -16,9 +16,5 @@ import com.sd.demo.entity.SysUser;
 public interface PlaceDao extends JpaRepository<Place,Long>{
 	Page<Place> findByOwner(SysUser owner,Pageable pageable);
 	List<Place> findByOwner(SysUser owner);
-	@Transactional
-	@Modifying
-	@Query("delete from Place where id = :id")
-	void deleteById(@Param("code") Long id);
 	Page<Place> findByNameLikeOrTypeLike(String name,String type,Pageable pageable);
 }

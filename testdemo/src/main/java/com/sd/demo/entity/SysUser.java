@@ -40,7 +40,7 @@ public class SysUser  implements Serializable {
     @JoinTable(joinColumns = {@JoinColumn(name = "userid")}, inverseJoinColumns = {@JoinColumn(name = "roleid")})
 	private Set<SysRole> roleList = new HashSet<SysRole>();
 	
-	@OneToMany(mappedBy="owner")
+	@OneToMany(mappedBy="owner",cascade = {CascadeType.PERSIST})
 	private Set<Place> places = new HashSet<>(); 
 	
 	@OneToMany(mappedBy="applier")
