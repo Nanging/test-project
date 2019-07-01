@@ -13,6 +13,9 @@ public class PasswordEncoder {
 	private static final byte[] DES_KEY = { 21, 1, -110, 82, -32, -85, -128, -65, 3, -99, 6, -63, 49, 125 };
 	 public static String encryptBasedDes(String data) {
          String encryptedData = null;
+         if ("".equals(data)) {
+			return "";
+		} 
          try {
              SecureRandom sr = new SecureRandom();
              DESKeySpec deskey = new DESKeySpec(DES_KEY);
