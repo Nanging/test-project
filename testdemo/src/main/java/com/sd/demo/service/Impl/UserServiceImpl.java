@@ -141,8 +141,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean userLogin(String username,String password) {
 		if(username == null || password == null)return false;
-		if(username == "" || username.length()>16) return false;
-		if(password == "" || password.length()>16) return false;
+		if(username.equals("") || username.length()>16) return false;
+		if(password.equals("")) return false;
 		SysUser user = getUserByName(username);
 		if (user == null) {
 			return false;
@@ -156,8 +156,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Result userRegister(String username,String password,String phonenumber) {
 		if(username == null || password == null || phonenumber == null)return ResultFactory.buildFailResult("fail");
-		if(username == "" || username.length()>16) return ResultFactory.buildFailResult("fail");
-		if(password == "" || password.length()>16) return ResultFactory.buildFailResult("fail");
+		if(username.equals("") || username.length()>16) return ResultFactory.buildFailResult("fail");
+		if(password.equals("")) return ResultFactory.buildFailResult("fail");
 		if(phonenumber.length()!=11)return ResultFactory.buildFailResult("fail");
 		SysUser user = getUserByName(username);
 		if (user != null) {
