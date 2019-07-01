@@ -43,13 +43,13 @@ public class CommentServiceImpl implements CommentService {
 		return item;
 	}
 	@Override
-	public Comment addNewComment(long editorid, int placeid, String content) {
+	public boolean addNewComment(long editorid, int placeid, String content) {
 		SysUser editor = userDao.getOne(editorid);
 		Comment newComment = new Comment();
 		newComment.setContent(content);
 		newComment.setEditor(editor);
 		newComment.setPlace(placeService.getPlaceDetail(placeid));
 		commentDao.saveAndFlush(newComment);
-		return commentDao.getOne(newComment.getId());
+		return true;
 	}
 }
