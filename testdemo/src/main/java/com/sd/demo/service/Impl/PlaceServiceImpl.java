@@ -1,5 +1,7 @@
 package com.sd.demo.service.Impl;
 
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +31,9 @@ import com.sd.demo.entity.SysUser;
 import com.sd.demo.service.PlaceService;
 import com.sd.demo.service.UserService;
 import com.sd.demo.web.PlaceItem;
+import com.sd.demo.web.ResultFactory;
+
+import net.bytebuddy.asm.Advice.Return;
 @Service
 public class PlaceServiceImpl implements PlaceService {
 	@Autowired
@@ -60,6 +65,11 @@ public class PlaceServiceImpl implements PlaceService {
 	public boolean addPlace(String name,String type, String description, int size,
 			int affordNumber,String location,int price,int roomNumber,
 			Set<String> images,HttpServletRequest request, HttpServletResponse response) {
+		if(name == null || type == null || description == null || location == null || images == null)
+			return false;
+		if(name.equals("") || type.equals("") || description.equals("") || location.equals("")|| images.size() == 0)
+			return false;
+		if(size < 0 || price < 0 || roomNumber < 0)return false;
 		SysUser user = userService.getCurrentUser(request, response);
 		if (user == null) {
 			return false;
@@ -71,6 +81,12 @@ public class PlaceServiceImpl implements PlaceService {
 	public boolean addPlace(String name,String type, String description, int size,
 			int affordNumber,String location,int price,int roomNumber,
 			Set<String> imageUrls,int ownerid) {
+		if(name == null || type == null || description == null || location == null || imageUrls == null)
+			return false;
+		if(name.equals("") || type.equals("") || description.equals("") || location.equals("")|| imageUrls.size() == 0)
+			return false;
+		if(size < 0 || price < 0 || roomNumber < 0)return false;
+		if(!userDao.existsById((long)ownerid))return false;
 		SysUser owner = userDao.getOne((long)ownerid);
 		Place place = new Place();
 		place.setName(name);
@@ -122,7 +138,8 @@ public class PlaceServiceImpl implements PlaceService {
 	public Boolean deletePlace(int id) {
 		Integer ID = id;
 		System.out.println(id);
-		Place place = placeDao.findById(ID.longValue()).get();
+		if(!placeDao.existsById(ID.longValue()))return false;
+		Place place = placeDao.getOne(ID.longValue());
 		SysUser user = place.getOwner();
 		user.getPlaces().remove(place);
 		userDao.saveAndFlush(user);
@@ -157,6 +174,7 @@ public class PlaceServiceImpl implements PlaceService {
 	
 	@Override
 	public List<PlaceItem> getUserFavoritePlace(int userid){
+		
 		SysUser user = userDao.getOne((long)userid);
 		if (user == null) {
 			return null;

@@ -52,6 +52,8 @@ public class AddPlaceTest extends TestdemoApplicationTests{
 	public void testAddPlaceTest001() {
 		initPara();
 		name = "";
+		System.out.println("name:"+name);
+		System.out.println("r:"+name.equals(""));
 		assertTrue("场地名称不能为空情况测试失败", !placeService.addPlace(name, type, description, size, affordNumber, location, price, roomNumber, imageUrls, ownerid));
 		initPara();
 		type = "";
@@ -87,6 +89,7 @@ public class AddPlaceTest extends TestdemoApplicationTests{
 	}
 	@Test
 	public void testAddPlaceTest004() {
+		type = "娱乐场地";
 		assertTrue("参数合法情况测试失败", placeService.addPlace(name, type, description, size, affordNumber, location, price, roomNumber, imageUrls, ownerid));
 	}
 }
