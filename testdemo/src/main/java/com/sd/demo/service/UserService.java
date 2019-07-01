@@ -29,10 +29,10 @@ public interface UserService {
 
 	List<ApplyItem> getOtherUserApply(SysUser user);
 
-	SysUser removeFavorite(SysUser user, int placeid);
+	boolean modify(int userid, String oldPassword, String password);
 
-	SysUser addFavorite(SysUser user, int placeid);
+	boolean addFavorite(int userid, int placeid);
 
-	boolean modify(SysUser user, String oldPassword, String password);
+	boolean removeFavorite(int userid, int placeid);
 
 }

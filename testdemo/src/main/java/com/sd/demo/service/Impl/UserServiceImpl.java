@@ -110,18 +110,20 @@ public class UserServiceImpl implements UserService {
 		return userDao.findByUsername(username);
 	}
 	@Override
-	public SysUser addFavorite(SysUser user,int placeid) {
+	public boolean addFavorite(int userid,int placeid) {
+		SysUser user = userDao.getOne((long)userid);
 		Place place = placeService.getPlaceDetail(placeid);
 		user.getPlaceList().add(place);
 		userDao.saveAndFlush(user);
-		return user;
+		return true;
 	}
 	@Override
-	public SysUser removeFavorite(SysUser user,int placeid) {
+	public boolean removeFavorite(int userid,int placeid) {
+		SysUser user = userDao.getOne((long)userid);
 		Place place = placeService.getPlaceDetail(placeid);
 		user.getPlaceList().remove(place);
 		userDao.saveAndFlush(user);
-		return user;
+		return true;
 	}
 	
 	@Cacheable(cacheNames = "authority",key = "#username")
@@ -155,7 +157,8 @@ public class UserServiceImpl implements UserService {
 		return ResultFactory.buildFailResult("error");
 	}
 	@Override
-	public boolean modify(SysUser user,String oldPassword,String password) {
+	public boolean modify(int userid,String oldPassword,String password) {
+		SysUser user = userDao.getOne((long)userid);
 		if (!user.getPassword().equals(oldPassword)) {
 			return false;
 		} 

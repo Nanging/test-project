@@ -57,20 +57,21 @@ public class PlaceServiceImpl implements PlaceService {
 	}
 	
 	@Override
-	public Place addPlace(String name,String type, String description, int size,
+	public boolean addPlace(String name,String type, String description, int size,
 			int affordNumber,String location,int price,int roomNumber,
 			Set<String> images,HttpServletRequest request, HttpServletResponse response) {
 		SysUser user = userService.getCurrentUser(request, response);
 		if (user == null) {
-			return null;
+			return false;
 		}
-		return addPlace(name, type, description, size, affordNumber, location, price, roomNumber, images, user);
+		return addPlace(name, type, description, size, affordNumber, location, price, roomNumber, images, user.getId().intValue());
 	}
 	
 	@Override
-	public Place addPlace(String name,String type, String description, int size,
+	public boolean addPlace(String name,String type, String description, int size,
 			int affordNumber,String location,int price,int roomNumber,
-			Set<String> imageUrls,SysUser owner) {
+			Set<String> imageUrls,int ownerid) {
+		SysUser owner = userDao.getOne((long)ownerid);
 		Place place = new Place();
 		place.setName(name);
 		place.setDescription(description);
@@ -91,7 +92,10 @@ public class PlaceServiceImpl implements PlaceService {
 		}
 		place.setImages(images);
 		placeDao.saveAndFlush(place);
-		return placeDao.getOne(place.getId());
+		if (null != placeDao.getOne(place.getId())) {
+			return true; 
+		};
+		return false;
 	}
 	@Override
 	public Place modifyPlace(int id,String name,String type, String description, int size,
@@ -152,7 +156,11 @@ public class PlaceServiceImpl implements PlaceService {
 	}
 	
 	@Override
-	public List<PlaceItem> getUserFavoritePlace(SysUser user){
+	public List<PlaceItem> getUserFavoritePlace(int userid){
+		SysUser user = userDao.getOne((long)userid);
+		if (user == null) {
+			return null;
+		}
 		Set<Place>places = user.getPlaceList();
 		List<PlaceItem > resultList = new ArrayList<>();
 		for (Place place : places) {

@@ -29,20 +29,21 @@ public interface PlaceService {
 
 	Page<Place> getAdminList(int page);
 
-	Place addPlace(String name, String type, String description, int size, int affordNumber, String location, int price,
-			int roomNumber, Set<String> imageUrls, SysUser owner);
 
-	Place addPlace(String name, String type, String description, int size, int affordNumber, String location, int price,
+	boolean addPlace(String name, String type, String description, int size, int affordNumber, String location, int price,
 			int roomNumber, Set<String> images, HttpServletRequest request, HttpServletResponse response);
 
 	PlaceItem getPlaceById(int id);
 
 	List<PlaceItem> getAllUserPlace(SysUser user);
 
-	List<PlaceItem> getUserFavoritePlace(SysUser user);
-
 	Place modifyPlace(int id, String name, String type, String description, int size, int affordNumber, String location,
 			int price, int roomNumber);
+
+	boolean addPlace(String name, String type, String description, int size, int affordNumber, String location, int price,
+			int roomNumber, Set<String> imageUrls, int ownerid);
+
+	List<PlaceItem> getUserFavoritePlace(int userid);
 
 
 }
