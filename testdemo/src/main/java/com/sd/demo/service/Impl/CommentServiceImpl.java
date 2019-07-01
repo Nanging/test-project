@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sd.demo.dao.CommentDao;
+import com.sd.demo.dao.SysUserDao;
 import com.sd.demo.entity.Comment;
 import com.sd.demo.entity.SysUser;
 import com.sd.demo.service.CommentService;
@@ -21,6 +22,8 @@ public class CommentServiceImpl implements CommentService {
 	@Autowired
 	private PlaceService placeService;
 	
+	@Autowired
+	private SysUserDao userDao;
 	@Override
 	public List<CommentItem> getCommentsByPlace(int id) {
 		Set<Comment> comments = placeService.getPlaceDetail(id).getComments();
@@ -40,7 +43,8 @@ public class CommentServiceImpl implements CommentService {
 		return item;
 	}
 	@Override
-	public Comment addNewComment(SysUser editor, int placeid, String content) {
+	public Comment addNewComment(long editorid, int placeid, String content) {
+		SysUser editor = userDao.getOne(editorid);
 		Comment newComment = new Comment();
 		newComment.setContent(content);
 		newComment.setEditor(editor);

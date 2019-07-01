@@ -44,7 +44,7 @@ public class CommentController {
 		if (user == null ) {
 			return ResultFactory.buildAuthFailResult("fail");
 		}
-		commentService.addNewComment(user, form.getPlaceid(), form.getComment());
+		commentService.addNewComment(user.getId(), form.getPlaceid(), form.getComment());
 		return ResultFactory.buildSuccessResult("success");	
 	}
 }

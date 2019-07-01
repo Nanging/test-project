@@ -10,6 +10,6 @@ public interface CommentService {
 
 	List<CommentItem> getCommentsByPlace(int id);
 
-	Comment addNewComment(SysUser editor, int placeid, String content);
+	Comment addNewComment(long editorid, int placeid, String content);
 
 }
