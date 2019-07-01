@@ -24,7 +24,7 @@ public interface ApplyService {
 
 	Map<String, Object> getApplyList(int page, int size);
 
-	Apply addApply(Long placeid, Timestamp startTime, int time, int applier);
+	Apply addApply(Long placeid, Timestamp startTime, int time, int applierid);
 
 
 	boolean setRefuse(int id);

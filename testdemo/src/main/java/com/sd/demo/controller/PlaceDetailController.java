@@ -44,7 +44,7 @@ public class PlaceDetailController {
 	public Result apply(@RequestBody ApplyForm form,HttpServletRequest request, HttpServletResponse response) {
 
 		if (null != applyService.addApply(form.getPlaceid(), form.getStartTime(), form.getTime(), 
-				userService.getCurrentUser(request, response))) {
+				userService.getCurrentUser(request, response).getId().intValue())) {
 			return ResultFactory.buildSuccessResult("apply successfully");
 		}
 		return ResultFactory.buildSuccessResult("fail");	
