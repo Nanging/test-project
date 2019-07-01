@@ -32,11 +32,8 @@ public class AddPlaceTest extends TestdemoApplicationTests{
 	}};
 	int ownerid = 1;
 	
-	@Before
-	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-		super.init();
+
+	public void initPara() {
 		name = "场地名";
 		type = "";
 		description = "测试用场地";
@@ -52,53 +49,44 @@ public class AddPlaceTest extends TestdemoApplicationTests{
 	}
 	
 	@Test
-	public void testAddPlaceTest001_001() {
+	public void testAddPlaceTest001() {
+		initPara();
 		name = "";
 		assertTrue("场地名称不能为空情况测试失败", !placeService.addPlace(name, type, description, size, affordNumber, location, price, roomNumber, imageUrls, ownerid));
-	}
-	@Test
-	public void testAddPlaceTest001_002() {
+		initPara();
 		type = "";
 		assertTrue("场地类型不能为空情况测试失败", !placeService.addPlace(name, type, description, size, affordNumber, location, price, roomNumber, imageUrls, ownerid));
-	}
-	@Test
-	public void testAddPlaceTest001_003() {
+		initPara();
 		description = "";
 		assertTrue("场地描述不能为空情况测试失败", !placeService.addPlace(name, type, description, size, affordNumber, location, price, roomNumber, imageUrls, ownerid));
-	}
-	@Test
-	public void testAddPlaceTest001_004() {
+		initPara();
+		name = "";
+		assertTrue("场地名称不能为空情况测试失败", !placeService.addPlace(name, type, description, size, affordNumber, location, price, roomNumber, imageUrls, ownerid));
+		initPara();
 		name = "";
 		assertTrue("场地名称不能为空情况测试失败", !placeService.addPlace(name, type, description, size, affordNumber, location, price, roomNumber, imageUrls, ownerid));
 	}
 	@Test
-	public void testAddPlaceTest001_005() {
-		name = "";
-		assertTrue("场地名称不能为空情况测试失败", !placeService.addPlace(name, type, description, size, affordNumber, location, price, roomNumber, imageUrls, ownerid));
-	}
-	@Test
-	public void testAddPlaceTest002_001() {
+	public void testAddPlaceTest002() {
+		initPara();
 		ownerid = -1;
 		assertTrue("用户不存在情况测试失败", !placeService.addPlace(name, type, description, size, affordNumber, location, price, roomNumber, imageUrls, ownerid));
 	}
 	
 	@Test
-	public void testAddPlaceTest003_001() {
+	public void testAddPlaceTest003() {
+		initPara();
 		size = 0;
 		assertTrue("场地大小不合法情况测试失败", !placeService.addPlace(name, type, description, size, affordNumber, location, price, roomNumber, imageUrls, ownerid));
-	}
-	@Test
-	public void testAddPlaceTest003_002() {
+		initPara();
 		affordNumber = 0;
 		assertTrue("场地容纳人数不合法情况测试失败", !placeService.addPlace(name, type, description, size, affordNumber, location, price, roomNumber, imageUrls, ownerid));
-	}
-	@Test
-	public void testAddPlaceTest003_003() {
+		initPara();
 		roomNumber = 0;
 		assertTrue("场地房间数不合法情况测试失败", !placeService.addPlace(name, type, description, size, affordNumber, location, price, roomNumber, imageUrls, ownerid));
 	}
 	@Test
-	public void testAddPlaceTest004_001() {
+	public void testAddPlaceTest004() {
 		assertTrue("参数合法情况测试失败", placeService.addPlace(name, type, description, size, affordNumber, location, price, roomNumber, imageUrls, ownerid));
 	}
 }

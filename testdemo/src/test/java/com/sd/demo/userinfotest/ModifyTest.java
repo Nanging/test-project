@@ -18,37 +18,33 @@ public class ModifyTest extends TestdemoApplicationTests{
 	int userid = 1;
 	String oldPassword = "123";
 	String password = "456";
-	@Before
-	@Override
-	public void init() {
+
+	public void initPara() {
 		// TODO Auto-generated method stub
-		super.init();
 		userid = 1;
 		oldPassword = "123";
 		password = "456";
 	}
 	@Test
-	public void testModify001_001() {
+	public void testModify001() {
+		initPara();
 		oldPassword = "";
 		assertTrue("密码为空情况测试失败", !userService.modify(userid, oldPassword, oldPassword));	
-	}
-	@Test
-	public void testModify001_002() {
+		initPara();
 		password = "";
 		assertTrue("新密码为空情况测试失败", !userService.modify(userid, oldPassword, oldPassword));	
 	}
 	@Test
-	public void testModify002_001() {
+	public void testModify002() {
+		initPara();
 		userid = 0;
 		assertTrue("用户不存在情况测试失败", !userService.modify(userid, oldPassword, oldPassword));	
-	}
-	@Test
-	public void testModify003_001() {
+		initPara();
 		oldPassword ="999";
 		assertTrue("用户密码错误情况测试失败", !userService.modify(userid, oldPassword, oldPassword));	
 	}
 	@Test
-	public void testModify004_001() {
+	public void testModify004() {
 		assertTrue("参数合法情况测试失败", userService.modify(userid, oldPassword, oldPassword));	
 	}
 }

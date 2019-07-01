@@ -13,20 +13,20 @@ public class RemoveFavoriteTest extends TestdemoApplicationTests {
 	private UserService userService;
 	
 	@Test
-	public void testRemoveFavorite001_001() {
+	public void testRemoveFavorite001() {
 		int userid = -1;
 		int placeid = 1;
 		assertTrue("用户不存在情况测试失败", !userService.removeFavorite(userid, placeid));	
 	}
 	
 	@Test
-	public void testRemoveFavorite002_001() {
+	public void testRemoveFavorite002() {
 		int userid = 1;
 		int placeid = -1;
 		assertTrue("场地不存在情况测试失败", !userService.removeFavorite(userid, placeid));	
 	}
 	@Test
-	public void testRemoveFavorite003_001() {
+	public void testRemoveFavorite003() {
 		int userid = 1;
 		int placeid = 1;
 		assertTrue("参数合法情况测试失败", userService.removeFavorite(userid, placeid));	

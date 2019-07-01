@@ -12,12 +12,12 @@ public class DeletePlaceTest extends TestdemoApplicationTests{
 	@Autowired
 	private PlaceService placeService;
 	@Test
-	public void testDeletePlace001_001() {
+	public void testDeletePlace001() {
 		int placeid = -1;
 		assertTrue("场地不存在情况测试失败", !placeService.deletePlace(placeid));
 	}
 	@Test
-	public void testDeletePlace002_001() {
+	public void testDeletePlace002() {
 		int placeid = 1;
 		assertTrue("场地存在情况测试失败", placeService.deletePlace(placeid));
 	}

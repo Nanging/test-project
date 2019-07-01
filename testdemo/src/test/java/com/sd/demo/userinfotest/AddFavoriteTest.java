@@ -11,20 +11,20 @@ public class AddFavoriteTest extends TestdemoApplicationTests {
 	private UserService userService;
 	
 	@Test
-	public void testAddFavorite001_001() {
+	public void testAddFavorite001() {
 		int userid = -1;
 		int placeid = 1;
 		assertTrue("用户不存在情况测试失败", !userService.addFavorite(userid, placeid));	
 	}
 	
 	@Test
-	public void testAddFavorite002_001() {
+	public void testAddFavorite002() {
 		int userid = 1;
 		int placeid = -1;
 		assertTrue("场地不存在情况测试失败", !userService.addFavorite(userid, placeid));	
 	}
 	@Test
-	public void testAddFavorite003_001() {
+	public void testAddFavorite003() {
 		int userid = 1;
 		int placeid = 1;
 		assertTrue("参数合法情况测试失败", userService.addFavorite(userid, placeid));	

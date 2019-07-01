@@ -17,35 +17,31 @@ public class GetPlaceListTest extends TestdemoApplicationTests{
 	String name = "test";
 	String type = "住房";
 	int page = 1;
-	@Before
-	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-		super.init();
+
+	public void initPara() {
 		name = "test";
 		type = "住房";
 		page = 1;
 	}
 	@Test
-	public void testGetPlaceList001_001() {
+	public void testGetPlaceList001() {
+		initPara();
 		page = 0;
 		assertTrue("页数不合法情况测试失败", null==placeService.getPlaceList(name, type, page));
 	}
 	
 	@Test
-	public void testGetPlaceList002_001() {
+	public void testGetPlaceList002() {
+		initPara();
 		name = null;
 		assertTrue("名称为空情况测试失败", null==placeService.getPlaceList(name, type, page));
-	}
-	
-	@Test
-	public void testGetPlaceList002_002() {
+		initPara();
 		type = null;
 		assertTrue("类型为空情况测试失败", null==placeService.getPlaceList(name, type, page));
 	}
 	
 	@Test
-	public void testGetPlaceList003_001() {
+	public void testGetPlaceList003() {
 		assertNotNull("参数合法情况测试失败", placeService.getPlaceList(name, type, page));
 	}
 }
