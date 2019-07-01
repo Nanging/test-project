@@ -59,7 +59,7 @@ public class UserInfoController {
 		if (user == null ) {
 			return ResultFactory.buildAuthFailResult("fail");
 		}
-		if (userService.modify(user,form.getOldPassword(),form.getPassword())) {
+		if (userService.modify(user.getId().intValue(),form.getOldPassword(),form.getPassword())) {
 			return ResultFactory.buildSuccessResult("success");
 		}
 		return ResultFactory.buildFailResult("fail");	
@@ -140,7 +140,7 @@ public class UserInfoController {
 		if (user == null ) {
 			return ResultFactory.buildAuthFailResult("fail");
 		}
-		return ResultFactory.buildSuccessResult(placeService.getUserFavoritePlace(user));	
+		return ResultFactory.buildSuccessResult(placeService.getUserFavoritePlace(user.getId().intValue()));	
 	}
 	
 	@RequestMapping(value = "favorite/publish/{id}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
@@ -150,7 +150,7 @@ public class UserInfoController {
 		if (user == null ) {
 			return ResultFactory.buildAuthFailResult("fail");
 		}
-		userService.addFavorite(user, id);
+		userService.addFavorite(user.getId().intValue(), id);
 		return ResultFactory.buildSuccessResult("success");	
 	}
 	@RequestMapping(value = "favorite/cancel/{id}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
@@ -160,7 +160,7 @@ public class UserInfoController {
 		if (user == null ) {
 			return ResultFactory.buildAuthFailResult("fail");
 		}
-		userService.removeFavorite(user, id);
+		userService.removeFavorite(user.getId().intValue(), id);
 		return ResultFactory.buildSuccessResult("success");	
 	}
 	
