@@ -60,9 +60,9 @@ public class UserInfoController {
 			return ResultFactory.buildAuthFailResult("fail");
 		}
 		if (userService.modify(user,form.getOldPassword(),form.getPassword())) {
-			return ResultFactory.buildAuthFailResult("success");
+			return ResultFactory.buildSuccessResult("success");
 		}
-		return ResultFactory.buildSuccessResult("fail");	
+		return ResultFactory.buildFailResult("fail");	
 	}
 	@RequestMapping(value = "/apply", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
 	@ResponseBody
