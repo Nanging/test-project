@@ -29,22 +29,23 @@ public class ModifyTest extends TestdemoApplicationTests{
 	public void testModify001() {
 		initPara();
 		oldPassword = "";
-		assertTrue("密码为空情况测试失败", !userService.modify(userid, oldPassword, oldPassword));	
+		assertTrue("密码为空情况测试失败", !userService.modify(userid, oldPassword, password));	
 		initPara();
 		password = "";
-		assertTrue("新密码为空情况测试失败", !userService.modify(userid, oldPassword, oldPassword));	
+		assertTrue("新密码为空情况测试失败", !userService.modify(userid, oldPassword, password));	
 	}
 	@Test
 	public void testModify002() {
 		initPara();
 		userid = 0;
-		assertTrue("用户不存在情况测试失败", !userService.modify(userid, oldPassword, oldPassword));	
+		assertTrue("用户不存在情况测试失败", !userService.modify(userid, oldPassword, password));	
 		initPara();
 		oldPassword ="999";
-		assertTrue("用户密码错误情况测试失败", !userService.modify(userid, oldPassword, oldPassword));	
+		assertTrue("用户密码错误情况测试失败", !userService.modify(userid, oldPassword, password));	
 	}
 	@Test
 	public void testModify004() {
-		assertTrue("参数合法情况测试失败", userService.modify(userid, oldPassword, oldPassword));	
+		initPara();
+		assertTrue("参数合法情况测试失败", userService.modify(userid, oldPassword, password));	
 	}
 }

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.sd.demo.dao.PlaceDao;
 import com.sd.demo.dao.SysRoleDao;
 import com.sd.demo.dao.SysUserDao;
 import com.sd.demo.entity.Apply;
@@ -36,6 +37,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private SysRoleDao roleDao;
+	
+	@Autowired
+	private PlaceDao placeDao;
 	
 	@Autowired
 	UserRedisService userRedisService;
@@ -111,6 +115,7 @@ public class UserServiceImpl implements UserService {
 	}
 	@Override
 	public boolean addFavorite(int userid,int placeid) {
+		if(!userDao.existsById((long)userid) || !placeDao.existsById((long)placeid))return false;
 		SysUser user = userDao.getOne((long)userid);
 		Place place = placeService.getPlaceDetail(placeid);
 		user.getPlaceList().add(place);
@@ -119,6 +124,7 @@ public class UserServiceImpl implements UserService {
 	}
 	@Override
 	public boolean removeFavorite(int userid,int placeid) {
+		if(!userDao.existsById((long)userid) || !placeDao.existsById((long)placeid))return false;
 		SysUser user = userDao.getOne((long)userid);
 		Place place = placeService.getPlaceDetail(placeid);
 		user.getPlaceList().remove(place);
@@ -163,9 +169,13 @@ public class UserServiceImpl implements UserService {
 		}
 		return ResultFactory.buildFailResult("error");
 	}
+	
 	@Override
 	public boolean modify(int userid,String oldPassword,String password) {
-		SysUser user = userDao.getOne((long)userid);
+		if(!userDao.existsById((long)userid))return false;
+		if(oldPassword == null || password == null || userid <= 0
+				|| oldPassword.equals("") || password.equals(""))return false;
+		SysUser user = userDao.findById((long)userid).get();
 		if (!user.getPassword().equals(oldPassword)) {
 			return false;
 		} 

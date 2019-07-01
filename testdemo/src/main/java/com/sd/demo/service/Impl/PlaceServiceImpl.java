@@ -174,7 +174,8 @@ public class PlaceServiceImpl implements PlaceService {
 	
 	@Override
 	public List<PlaceItem> getUserFavoritePlace(int userid){
-		
+		if(!userDao.existsById((long)userid))return null;
+		System.out.println("id:"+userid);
 		SysUser user = userDao.getOne((long)userid);
 		if (user == null) {
 			return null;
@@ -195,6 +196,7 @@ public class PlaceServiceImpl implements PlaceService {
 	
 	@Override
 	public List<PlaceItem> getPlaceList(String name,String type, int page){
+		if(name == null || type == null || page <= 0)return null;
 		Pageable pageable = PageRequest.of(page-1, Size);
 		List<Place> places = placeDao.findByNameLikeOrTypeLike("%"+name+"%", "%"+type+"%", pageable).getContent();
 		System.out.println(places.size());
