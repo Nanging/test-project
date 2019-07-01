@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sd.demo.service.UserService;
+import com.sd.demo.support.PasswordEncoder;
 import com.sd.demo.web.LoginForm;
 import com.sd.demo.web.RegisterForm;
 import com.sd.demo.web.Result;
@@ -32,12 +33,11 @@ public class UserController {
 	public Result Login(@RequestBody LoginForm loginForm,HttpServletRequest request, HttpServletResponse response) {
 		
 		System.out.println(loginForm);
-		if (userService.userLogin(loginForm.getUsername(), loginForm.getPassword())) {
+		if (userService.userLogin(loginForm.getUsername(), PasswordEncoder.encryptBasedDes(loginForm.getPassword()))) {
 			HttpSession session = request.getSession();
 			String sessionId = session.getId();
-			userService.addUserSession(loginForm.getUsername() + "_" + loginForm.getPassword(), sessionId);
-
-			Cookie cookie = new Cookie("loginStatus", loginForm.getUsername() + "_" + loginForm.getPassword());
+			userService.addUserSession(loginForm.getUsername() + "_" + PasswordEncoder.encryptBasedDes(loginForm.getPassword()), sessionId);
+			Cookie cookie = new Cookie("loginStatus", loginForm.getUsername() + "_" + PasswordEncoder.encryptBasedDes(loginForm.getPassword()));
 			cookie.setPath("/");
 			cookie.setMaxAge(3600);
 			response.addCookie(cookie);
@@ -51,7 +51,7 @@ public class UserController {
 	public Result Register(@RequestBody RegisterForm registerForm) {
 		
 		System.out.println(registerForm);
-		Result result = userService.userRegister(registerForm.getUsername(), registerForm.getPassword(), registerForm.getPhonenumber());
+		Result result = userService.userRegister(registerForm.getUsername(), PasswordEncoder.encryptBasedDes(registerForm.getPassword()), registerForm.getPhonenumber());
 		if (result != null) {
 			return result;
 		}

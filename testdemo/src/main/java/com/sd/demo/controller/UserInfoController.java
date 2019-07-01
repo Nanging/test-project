@@ -17,6 +17,7 @@ import com.sd.demo.entity.SysUser;
 import com.sd.demo.service.ApplyService;
 import com.sd.demo.service.PlaceService;
 import com.sd.demo.service.UserService;
+import com.sd.demo.support.PasswordEncoder;
 import com.sd.demo.web.EditPlaceForm;
 import com.sd.demo.web.ModifyForm;
 import com.sd.demo.web.Result;
@@ -59,7 +60,8 @@ public class UserInfoController {
 		if (user == null ) {
 			return ResultFactory.buildAuthFailResult("fail");
 		}
-		if (userService.modify(user.getId().intValue(),form.getOldPassword(),form.getPassword())) {
+		if (userService.modify(user.getId().intValue(),PasswordEncoder.encryptBasedDes(form.getOldPassword())
+				,PasswordEncoder.encryptBasedDes(form.getPassword()))) {
 			return ResultFactory.buildSuccessResult("success");
 		}
 		return ResultFactory.buildFailResult("fail");	
