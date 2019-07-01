@@ -1,5 +1,8 @@
 package com.sd.demo.service.Impl;
 
+import static org.mockito.Mockito.RETURNS_SMART_NULLS;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.sd.demo.dao.ApplyDao;
 import com.sd.demo.dao.ApplyStateDao;
 import com.sd.demo.dao.PlaceDao;
@@ -100,10 +104,16 @@ public class ApplyServiceImpl implements ApplyService {
 	}
 	@Override
 	public Apply addApply(Long placeid,Timestamp startTime,int time,int applierid) {
+		if(placeid <= 0 || applierid <= 0)return null;
+		if(!(userDao.existsById((long)applierid)) || !(placeDao.existsById((long)placeid)))return null;
+		System.out.println("before");
 		SysUser applier = userDao.getOne((long)applierid);
+		System.out.println("after");
 		if (applier == null) {
 			return null;
 		}
+		System.out.println(applier.getId());
+		System.out.println("next");
 		Apply apply = new Apply();
 		Place place = placeDao.getOne(placeid);
 		apply.setPlace(place);
@@ -124,7 +134,14 @@ public class ApplyServiceImpl implements ApplyService {
 	@Override
 	public Boolean deleteApply(int id) {
 		Integer ID = id;
-		Apply apply = applyDao.findById(ID.longValue()).get();
+		if(id <= 0 )return false;
+		System.out.println("before");
+		if(!applyDao.existsById(ID.longValue()))return false;
+		Apply apply = applyDao.getOne(ID.longValue());
+		System.out.println("after");
+		if(apply == null)return false;
+		System.out.println(apply.getId());
+		System.out.println("next");
 		applyDao.delete(apply);
 		Optional<Apply> applyOptional =  applyDao.findById(ID.longValue());	
 		if (applyOptional.isPresent()) {
