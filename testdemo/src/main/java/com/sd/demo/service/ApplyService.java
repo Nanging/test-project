@@ -24,13 +24,13 @@ public interface ApplyService {
 
 	Map<String, Object> getApplyList(int page, int size);
 
-	Apply addApply(Long placeid, Timestamp startTime, int time, SysUser applier);
+	Apply addApply(Long placeid, Timestamp startTime, int time, int applier);
 
 
 	boolean setRefuse(int id);
 
 	boolean setConfirm(int id);
 
-	List<ApplyItem> getApplyByPlace(Place place);
+	List<ApplyItem> getApplyByPlace(int placeid);
 
 }

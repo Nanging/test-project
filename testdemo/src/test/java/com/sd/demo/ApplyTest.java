@@ -1,5 +1,6 @@
 package com.sd.demo;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import org.junit.Assert;
@@ -71,17 +72,17 @@ public class ApplyTest extends TestdemoApplicationTests {
 	@Test
 	public void testAddApply() {
 		//UT_AP_001_005_001
-		Assert.assertEquals(null, applyService.addApply(0,new Date(),2,1);
-		Assert.assertEquals(null, applyService.addApply(1,new Date(),0,1);
-		Assert.assertEquals(null, applyService.addApply(1,new Date(),2,0);
+		Assert.assertEquals(null, applyService.addApply((long)0,new Timestamp(new Date().getTime()),2,1));
+		Assert.assertEquals(null, applyService.addApply((long)1,new Timestamp(new Date().getTime()),0,1));
+		Assert.assertEquals(null, applyService.addApply((long)1,new Timestamp(new Date().getTime()),2,0));
 			
 		//UT_AP_001_005_002
-		Assert.assertEquals(null, applyService.addApply(-1,new Date(),2,1);
-		Assert.assertEquals(null, applyService.addApply(1,new Date(),-1,1);
-		Assert.assertEquals(null, applyService.addApply(1,new Date(),2,-1);
+		Assert.assertEquals(null, applyService.addApply((long)-1,new Timestamp(new Date().getTime()),2,1));
+		Assert.assertEquals(null, applyService.addApply((long)1,new Timestamp(new Date().getTime()),-1,1));
+		Assert.assertEquals(null, applyService.addApply((long)1,new Timestamp(new Date().getTime()),2,-1));
 		
 		//UT_AP_001_005_003
-		Assert.assertEquals(null, applyService.addApply(100,new Date(),2,1);
+		Assert.assertEquals(null, applyService.addApply((long)100,new Timestamp(new Date().getTime()),2,1));
 	}
 	
 	//APPLY_001_FUN_006

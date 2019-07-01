@@ -70,7 +70,7 @@ public class ApplyServiceImpl implements ApplyService {
 	}
 	
 	@Override
-	public List<ApplyItem> getApplyByPlace(Place place) {
+	public List<ApplyItem> getApplyByPlace(int placeid) {
 		List<Apply> applies =  applyDao.findByPlace(place);
 		List<ApplyItem> resultList = new ArrayList<>();
 		for (Apply apply : applies) {
@@ -98,7 +98,7 @@ public class ApplyServiceImpl implements ApplyService {
 		return apply;
 	}
 	@Override
-	public Apply addApply(Long placeid,Timestamp startTime,int time,SysUser applier) {
+	public Apply addApply(Long placeid,Timestamp startTime,int time,int applier) {
 		if (applier == null) {
 			return null;
 		}
