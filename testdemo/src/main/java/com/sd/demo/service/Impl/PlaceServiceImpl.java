@@ -52,6 +52,7 @@ public class PlaceServiceImpl implements PlaceService {
 	
 	@Override
 	public Place getPlaceDetail(int id) {
+		if(!placeDao.existsById((long)id))return null;
 		Integer ID = id;
 		Place place = null;
 		Optional<Place> placeOptional =  placeDao.findById(ID.longValue());	
@@ -136,6 +137,7 @@ public class PlaceServiceImpl implements PlaceService {
 	}
 	@Override
 	public Boolean deletePlace(int id) {
+		if(!placeDao.existsById((long)id))return false;
 		Integer ID = id;
 		System.out.println(id);
 		if(!placeDao.existsById(ID.longValue()))return false;
@@ -209,6 +211,7 @@ public class PlaceServiceImpl implements PlaceService {
 	}
 	@Override
 	public PlaceItem getPlaceById(int id) {
+		if(!placeDao.existsById((long)id))return null;
 		Place place = placeDao.getOne((long) id);
 		return getPlaceResult(place);
 	}

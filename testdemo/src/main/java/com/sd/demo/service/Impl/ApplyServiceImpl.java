@@ -44,6 +44,7 @@ public class ApplyServiceImpl implements ApplyService {
 	
 	@Override
 	public boolean setConfirm(int id) {
+		if(!applyDao.existsById((long)id))return false;
 		Integer ID = id;
 		Apply apply = null;
 		Optional<Apply> applyOptional =  applyDao.findById(ID.longValue());	
@@ -59,6 +60,7 @@ public class ApplyServiceImpl implements ApplyService {
 	}
 	@Override
 	public boolean setRefuse(int id) {
+		if(!applyDao.existsById((long)id))return false;
 		Integer ID = id;
 		Apply apply = null;
 		Optional<Apply> applyOptional =  applyDao.findById(ID.longValue());	
@@ -75,6 +77,7 @@ public class ApplyServiceImpl implements ApplyService {
 	
 	@Override
 	public List<ApplyItem> getApplyByPlace(int placeid) {
+		if(!applyDao.existsById((long)placeid))return null;
 		Place place = placeDao.getOne((long)placeid);
 		List<Apply> applies =  applyDao.findByPlace(place);
 		List<ApplyItem> resultList = new ArrayList<>();
@@ -94,6 +97,7 @@ public class ApplyServiceImpl implements ApplyService {
 	
 	@Override
 	public Apply getApplyDetail(int id) {
+		if(!applyDao.existsById((long)id))return null;
 		Integer ID = id;
 		Apply apply = null;
 		Optional<Apply> applyOptional =  applyDao.findById(ID.longValue());	
@@ -133,6 +137,7 @@ public class ApplyServiceImpl implements ApplyService {
 	}
 	@Override
 	public Boolean deleteApply(int id) {
+		if(!applyDao.existsById((long)id))return false;
 		Integer ID = id;
 		if(id <= 0 )return false;
 		System.out.println("before");
